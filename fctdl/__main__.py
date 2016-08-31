@@ -9,9 +9,14 @@
 
 """
 
+import logging
+
 from .cli import main
 
 if __name__ == '__main__':
-    exit(main())
+    try:
+        exit(main())
+    except Exception as e:
+        logging.error(e)
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 fenc=utf-8

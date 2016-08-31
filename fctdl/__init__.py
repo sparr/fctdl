@@ -9,6 +9,6 @@
 
 """
 
-__version__ = '0.0.1'
+__version__ = '0.1.0'
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4 fenc=utf-8
