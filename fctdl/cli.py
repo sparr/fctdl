@@ -9,9 +9,10 @@
 
 """
 
-import click, logging, platform
+import click, logging, platform, os
 
 from . import __version__
+from .config import read_config
 from .factorio import Factorio
 
 logger = logging.getLogger(__name__)
@@ -21,13 +22,21 @@ pass_factorio = click.make_pass_decorator(Factorio)
 @click.group()
 @click.version_option(version=__version__)
 @click.option('--debug/--no-debug', default=False)
-@click.option('-u', '--username', prompt='username')
-@click.option('-p', '--password', prompt='password', hide_input=True)
+@click.option('-c', '--config', default=os.path.expanduser('~/.config/fctdl.yml'))
+@click.option('-u', '--username')
+@click.option('-p', '--password')
 @click.pass_context
-def main(ctx, debug, username, password):
+def main(ctx, debug, config, username, password):
     """main"""
     logging.basicConfig(level=logging.DEBUG if debug else logging.INFO)
     logging.getLogger('requests').setLevel(logging.DEBUG if debug else logging.WARNING)
+
+    cfg = read_config(config)
+
+    if not username:
+        username = cfg.username if cfg.username else click.prompt('username')
+    if not password:
+        password = cfg.password if cfg.password else click.prompt('password', hide_input=True)
 
     ctx.obj = Factorio(username, password)
 

@@ -1,3 +1,5 @@
 requests
 click
 lxml
+simple_model
+ruamel.yaml>=0.12.12
