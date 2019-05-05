@@ -2,4 +2,5 @@ requests
 click
 lxml
 simple_model
+pyyaml
 ruamel.yaml>=0.12.12

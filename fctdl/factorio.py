@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 login_url = 'https://www.factorio.com/login'
 
 versions_url = {
-    'stable': 'https://www.factorio.com/download/stable',
+    'stable': 'https://www.factorio.com/download',
     'experimental': 'https://www.factorio.com/download/experimental',
 }
 
@@ -64,7 +64,9 @@ class Factorio:
         logger.info('requesting binary location.')
         response = self._session.get(download_url.get(arch) % version, allow_redirects=False)
 
-        if response.status_code != 302:
+        if response.status_code == 404:
+            raise Exception('Location request 404 not found, possibly nonexistent version?')
+        elif response.status_code != 302:
             raise Exception('location request failed: %s' % response.text)
         elif 'Location' not in response.headers:
             raise Exception('No location received in headers: %s' % response.headers)
@@ -81,6 +83,7 @@ class Factorio:
 
     def list(self, branch):
         logger.info('requesting versions.')
+        print(versions_url.get(branch))
         response = self._session.get(versions_url.get(branch), allow_redirects=False)
 
         if response.status_code != 200:

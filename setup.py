@@ -19,9 +19,8 @@ except ImportError:
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname), 'r').read()
 
-install_reqs = pip.req.parse_requirements('requirements.txt', session=pip.download.PipSession())
-
-requirements = [str(ir.req) for ir in install_reqs if ir is not None]
+with open('requirements.txt') as f:
+    requirements = list(f)
 
 from fctdl import __version__
 
