@@ -75,7 +75,8 @@ class Factorio:
 
         logger.info('downloading binary from %s to %s.' % (binary_location, path))
 
-        with open(os.path.join(path, 'factorio_alpha_%s_%s.tar.gz' % (arch, version)), 'wb') as handle:
+        # TODO recognize old versions as .gz
+        with open(os.path.join(path, 'factorio_alpha_%s_%s.tar.xz' % (arch, version)), 'wb') as handle:
             response = requests.get(binary_location, stream=True)
 
             for block in response.iter_content(1024):
